@@ -1,0 +1,102 @@
+---
+
+import MainGridLayout from '../layouts/MainGridLayout.astro'
+
+import { getEntry } from 'astro:content'
+import { i18n } from '../i18n/translation'
+import I18nKey from '../i18n/i18nKey'
+import Markdown from '@components/misc/Markdown.astro'
+
+const friendsPost = await getEntry('spec','friends')
+const { Content } = await friendsPost.render()
+const items = [
+  {  
+    title: 'bakptr',  
+    imgurl: 'https://q.qlogo.cn/g?b=qq&nk=369060891&s=160',  
+    desc: '社恐但无所不知的bakaptr',  
+    siteurl: 'https://pooi.me/',  
+    tags: ['博客'],  
+  },
+  {  
+    title: '未晓',  
+    imgurl: 'https://q.qlogo.cn/g?b=qq&nk=1537476031&s=160',  
+    desc: '一只正在学习前端的未晓',  
+    siteurl: 'https://www.dawnot.online/',  
+    tags: ['博客'],  
+  },
+  {  
+    title: 'For You',  
+    imgurl: 'http://qn.lackofcsy.cn/config/055c0cb176b1f4c0cdb91e277a8eeb05.jpg',  
+    desc: '螃蟹在剥我的壳, 笔记本在写我, 漫天的我落在枫叶上雪花上, 而你在想我。',  
+    siteurl: 'https://lackofcsy.cn/',  
+    tags: ['博客'],  
+  },
+  {  
+    title: 'Latinaxia',  
+    imgurl: 'https://q.qlogo.cn/g?b=qq&nk=3276327856&s=160',  
+    desc: '屑劳坂的草台班子',  
+    siteurl: 'https://latinaxia.github.io',  
+    tags: ['博客'],  
+  },
+  {  
+    title: '不会聊天真君',  
+    imgurl: 'https://q.qlogo.cn/g?b=qq&nk=2715458216&s=160',  
+    desc: '这是一个介绍（实验室的小东西）',  
+    siteurl: 'https://blog.csdn.net/2403_87139271?spm=1011.2415.3001.5343',  
+    tags: ['博客'],  
+  },
+  {  
+    title: 'Gj504b',  
+    imgurl: 'https://q.qlogo.cn/g?b=qq&nk=3224314975&s=160',  
+    desc: '娱乐至死',  
+    siteurl: 'https://www.cnblogs.com/GJ504b',  
+    tags: ['博客'],  
+  },
+  {  
+    title: 'mrlonely',  
+    imgurl: 'https://q.qlogo.cn/g?b=qq&nk=1036279200&s=160',  
+    desc: '你可以叫他HuoHuo?',  
+    siteurl: 'https://blog.mrlonely.top/',  
+    tags: ['博客'],  
+  },
+]
+---
+<MainGridLayout title={i18n(I18nKey.friends)} description={i18n(I18nKey.friends)}>
+    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
+        <div class="card-base z-10 px-9 py-6 relative w-full ">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 my-4">
+                {items.map((item) => (   
+                    <div class="flex flex-nowrap items-stretch h-28 gap-4 rounded-[var(--radius-large)]">
+                        <div class="w-28 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-zinc-200 dark:bg-zinc-900">
+                            <img src={item.imgurl} alt="站点头像" class="w-full h-full object-cover">
+                        </div>
+                        <div class="grow w-full">
+                            <div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 mb-1">{item.title}</div>
+                            <div class="text-50 text-sm font-medium">{item.desc}</div>
+                            <div class:list={["items-center", {"flex": true, "hidden md:flex" : false}]}>
+                                <div class="flex flex-row flex-nowrap items-center">
+                                    {(item.tags && item.tags.length > 0) && item.tags.map((tag,i) => (  
+                                    <div class:list={[{"hidden": i==0}, "mx-1.5 text-[var(--meta-divider)] text-sm" ]}>
+                                        /
+                                    </div>  
+                                    <span class="transition text-50 text-sm font-medium">
+                                        {tag}
+                                    </span>))}
+                                    {!(item.tags && item.tags.length > 0) && <div class="transition text-50 text-sm font-medium">{i18n(I18nKey.noTags)}</div>}
+                                </div>
+                            </div>
+                        </div>
+                        <a href={item.siteurl} target="_blank" rel="noopener noreferrer"class="flex btn-regular w-[3.25rem] rounded-lg bg-[var(--enter-btn-bg)] hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="transition text-[var(--primary)] text-4xl mx-auto iconify iconify--material-symbols" width="1em" height="1em" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                ))}
+            </div>  
+            <Markdown class="mt-2">
+                <Content />
+            </Markdown>
+        </div>
+    </div>
+</MainGridLayout>
