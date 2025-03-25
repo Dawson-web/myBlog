@@ -1,7 +1,7 @@
 ---
 title: 手撕Promise.API
 tags: [Js系列]
-categories: Js系列
+category: Js系列
 published: 2024-08-25 21:00:00
 draft: false
 image: /前端/js系列/手撕Promise.API/cover.webp

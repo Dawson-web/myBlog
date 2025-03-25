@@ -1,7 +1,7 @@
 ---
 title: Js原型链
 tags: [Js系列]
-categories: Js系列
+category: Js系列
 published: 2024-08-30 21:17:45
 draft: false
 image: /前端/js系列/Js原型链/cover.webp

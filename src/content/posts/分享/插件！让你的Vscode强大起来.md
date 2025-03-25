@@ -1,7 +1,7 @@
 ---
 title: 插件！让你的Vscode强大起
 tags: [分享]
-categories: 分享
+category: 分享
 published: 2024-8-05 15:22:25
 draft: false
 image: /分享/插件！让你的Vscode强大起来/cover.webp
