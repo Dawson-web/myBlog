@@ -4,16 +4,16 @@ tags: [分享]
 category: 分享
 published: 2025-03-25 19:46:25
 draft: false
-image: /分享/TS重写为何不用Rust或自家C++而选择Go/cover.webp
+image: /分享/TS重构/cover.webp
 
 
 ---
 
 这次TypeScript使用Go重写其性能更是直接“飙涨”至10倍之多，但大家相对于其性能提升之外讨论最多的更多在于为何不使用Rust或者C# 重写
 值得注意的是本次重写重在‘原生移植’（即保持原有架构和逻辑不变）而非‘完全重写’，这也就导致了为什么不使用Rust而使用Go
-![TS重写为何不用Rust或自家C++而选择Go](/分享/TS重写为何不用Rust或自家C++而选择Go/1.webp)
-![TS重写为何不用Rust或自家C++而选择Go](/分享/TS重写为何不用Rust或自家C++而选择Go/2.webp)
-![TS重写为何不用Rust或自家C++而选择Go](/分享/TS重写为何不用Rust或自家C++而选择Go/3.webp)
+![TS重构](/分享/TS重构/1.webp)
+![TS重构](/分享/TS重构/2.webp)
+![TS重构](/分享/TS重构/3.webp)
 而且相对于Rust来说Go与Js更为接近
 
 那既然这样为什么不使用自家的C# 呢？
