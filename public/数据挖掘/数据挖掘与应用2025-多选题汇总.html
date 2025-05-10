@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成信大数据挖掘与应用2025 - 多选题汇总</title>
+    <style>
+      body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #1a73e8;
+      font-weight: 600;
+    }
+    .chapter-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .chapter-btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .chapter-btn:hover {
+      background-color: #0d62c1;
+      transform: translateY(-2px);
+    }
+    .question-container {
+      display: none;
+      background-color: #f8f9fa;
+      padding: 25px;
+      border-radius: 10px;
+      margin-top: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .question-title {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .options-list {
+      margin-left: 20px;
+    }
+    .option-item {
+      margin: 15px 0;
+      padding: 12px 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative; /* For bookmark icon positioning */
+    }
+    .option-item:hover {
+      background-color: #f5f5f5;
+    }
+    .option-item.selected { /* User actively selected this option */
+      border-color: #1a73e8 !important; /* Ensure user selection is prominent */
+      background-color: #e8f0fe !important;
+    }
+    .option-item.correct-choice { /* This option was a correct answer (after check) */
+      border-color: #0d904f;
+       /* background-color: #ecf8f2; */ /* Let user selection override if also selected */
+    }
+    .option-item.incorrect-choice.selected { /* User selected this, but it was wrong (after check) */
+       border-color: #e53e3e !important;
+       background-color: #fdf2f2 !important;
+    }
+     .option-item.missed-choice { /* This was a correct answer but user missed it (after check) */
+       /* Example: Add a subtle indicator for missed correct answers if desired */
+       /* border-left: 3px solid #ffc107; */
+    }
+
+    .feedback {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 500;
+      display: none;
+    }
+    .feedback.correct {
+      background-color: #ecf8f2;
+      color: #0d904f;
+      border-left: 4px solid #0d904f;
+    }
+    .feedback.incorrect {
+      background-color: #fdf2f2;
+      color: #e53e3e;
+      border-left: 4px solid #e53e3e;
+    }
+    .explanation {
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      border-left: 4px solid #1a73e8;
+      display: none;
+    }
+    .action-btns {
+      display: flex;
+      justify-content: space-between; 
+      gap: 10px; 
+      margin-top: 20px;
+    }
+    .btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex-grow: 1; 
+    }
+    .btn:hover {
+      background-color: #0d62c1;
+    }
+    .btn[disabled] {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #1a73e8;
+      color: #1a73e8;
+    }
+    .btn-outline.active { /* Style for bookmarked state */
+        background-color: #ffc107;
+        border-color: #ffc107;
+        color: white;
+    }
+    .btn-outline:hover:not(.active):not([disabled]) {
+      background-color: #e8f0fe;
+    }
+    .stats {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+    .progress-bar {
+      height: 10px;
+      background-color: #eee;
+      border-radius: 5px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #1a73e8;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>成信大数据挖掘与应用2025 - 多选题复习系统</h1>
+        
+        <div class="chapter-list" id="chapterList"></div>
+        
+        <div class="question-container" id="questionContainer">
+          <div class="question-title" id="questionTitle"></div>
+          <div class="options-list" id="optionsList"></div>
+          <div class="feedback" id="feedback"></div>
+          <div class="explanation" id="explanation"></div>
+          <div class="action-btns">
+            <button class="btn btn-outline" id="markBtn" style="display: none;">收藏本题</button>
+            <button class="btn" id="checkAnswerBtn">核对答案</button>
+            <button class="btn" id="nextBtn" style="display: none;">下一题</button>
+            <button class="btn" id="prevBtn" >上一题</button>
+          </div>
+        </div>
+        
+        <div class="stats" id="stats"></div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    
+    
+
+    <script>
+    const multiplyProblems = [
+  {
+    class: "回归",
+    problems: [
+      {
+        id: "R3-1",
+        score: 5,
+        content: "关于迭代求解回归模型，说法正确的有：",
+        options: [
+          "A、回归神经网络优化过程可以使用下降法",
+          "B、下降法通过一次迭代可以得到回归模型的解",
+          "C、迭代过程需要将待求解参数沿着负梯度方向移动",
+          "D、学习率过小会导致求解过程发散",
+        ],
+        answer: ["A", "B"], // 请根据实际正确答案修改
+      },
+      {
+        id: "R3-2",
+        score: 5,
+        content: "关于回归模型，说法正确的有：",
+        options: [
+          "A、回归模型中不同属性和误差之间不是独立的",
+          "B、回归神经网络可以求解非线性和线性回归问题",
+          "C、回归神经网络需要引入均方差损失函数来进行求解",
+          "D、岭回归求解过程引入并添加的λ矩阵是一个对角矩阵",
+        ],
+        answer: ["B", "C", "D"], // 请根据实际正确答案修改
+      },
+    ],
+  },
+  {
+    class: "聚类",
+    problems: [
+      {
+        id: "R3-1",
+        score: 5,
+        content: "下列说法正确的是",
+        options: [
+          "A、K-means算法能够解决有离群点的聚类问题",
+          "B、K-modes算法能够解决离散数据的聚类问题",
+          "C、K-means++算法能够解决初始点影响聚类效果的问题",
+          "D、K中心点算法能够解决有离群点的聚类问题",
+        ],
+        answer: ["B", "C", "D"], // 请根据实际情况修改
+      },
+      {
+        id: "R3-2",
+        score: 5,
+        content: "下列哪项可能成为K均值的终止条件",
+        options: [
+          "A、对固定数量的迭代",
+          "B、在局部最小值不是特别差的情况下，在迭代中对簇观测值的分配不发生变化",
+          "C、在连续迭代中质心不发生变化",
+          "D、以上都不是",
+        ],
+        answer: ["A", "B", "C"], // 请根据实际情况修改
+      },
+      {
+        id: "R3-3",
+        score: 5,
+        content: "在使用DBSCAN算法中，可以将样本中的点划分为哪三类",
+        options: ["A、核心点", "B、中心点", "C、边缘点", "D、噪声点"],
+        answer: ["A", "C", "D"], // 请根据实际情况修改
+      },
+      {
+        id: "R3-4",
+        score: 5,
+        content: "下列哪些算法属于基于划分的聚类算法？",
+        options: ["A、K-means", "B、K-modes", "C、K-means++", "D、K中心点"],
+        answer: ["A", "B", "C", "D"], // 请根据实际情况修改
+      },
+      {
+        id: "R3-5",
+        score: 5,
+        content: "关于聚类，下列说法正确的是",
+        options: [
+          "A、聚类和分类没有区别",
+          "B、聚类有着广泛的应用",
+          "C、聚类可以作为其他数据挖掘分析过程的一个基本处理步骤",
+          "D、聚类可以发现偏离多数数据对象的孤立点",
+        ],
+        answer: ["B", "C", "D"], // 请根据实际情况修改
+      },
+      {
+        id: "R3-6",
+        score: 5,
+        content: "DBSCAN算法中的参数有",
+        options: ["A、k值", "B、邻域半径", "C、minPts", "D、簇数量"],
+        answer: ["B", "C"], // 请根据实际情况修改
+      },
+      {
+        id: "R3-7",
+        score: 5,
+        content: "下列哪些聚类方法易于发现特殊形状的簇",
+        options: [
+          "A、层次聚类",
+          "B、DBSCAN",
+          "C、K均值聚类",
+          "D、基于密度的聚类方法",
+        ],
+        answer: ["B", "D"], // 请根据实际情况修改
+      },
+      {
+        id: "R3-8",
+        score: 5,
+        content: "聚类算法常用的模型有",
+        options: ["A、最近邻模型", "B、k-means", "C、DBSCAN", "D、支持向量机"],
+        answer: ["B", "C"], // 请根据实际情况修改
+      },
+    ],
+  },
+  {
+    class: "数据预处理",
+    problems: [
+          {
+            id: "R3-1",
+            score: 5,
+            content: "下列说法正确的是（单选）",
+            options: [
+              "A、有损压缩方法适合压缩字符串",
+              "B、数据聚集可以使用数据集的聚类中心点来表示一群数据",
+              "C、霍夫曼编码是一种有损编码",
+              "D、设数据集中类型A有100w个，类型B有1w个，适合使用简单抽样",
+            ],
+            answer: ["B"],
+          },
+          {
+            id: "R3-2",
+            score: 5,
+            content: "下列说法正确的有（单选）",
+            options: [
+              "A、z-score的计算公式中，分母是方差",
+              "B、数据预处理不包含对数据进行平滑处理",
+              "C、多个数据源整合成一个或少数几个数据源，便于处理",
+              "D、不同来源的数据集，要找到重复数据只需要对比数值是否相同",
+            ],
+            answer: ["C"],
+          },
+          {
+            id: "R3-3",
+            score: 5,
+            content: "关于数据预处理和可视化，下列说法正确的是（选择两个选项）",
+            options: [
+              "A、超高维度的数据可以用平行坐标可视化来表示",
+              "B、数据可视化可以在数据处理后期形象地反映数据处理的结果",
+              "C、所有类型的饼图都只能表示数据的单个属性大小",
+              "D、折线图应该和水平条形图搭配可视化，而不是柱状图",
+            ],
+            answer: ["A", "B"],
+          },
+          {
+            id: "R3-4",
+            score: 5,
+            content: "数据预处理说法正确的是(单选)",
+            options: [
+              "A、预处理后的数据在精确性、复杂性等方面肯定不存在问题",
+              "B、复杂的算法可以获得超出原始数据所包含的外部信息",
+              "C、引入复杂算法相比获取更多有效数据，总是能带来更好的处理结果",
+              "D、数据挖掘工作建立在良好的数据基础上",
+            ],
+            answer: ["D"],
+          },
+          {
+            id: "R3-5",
+            score: 5,
+            content: "类别型数据的预处理方法不包含（单选）",
+            options: [
+              "A、最大最小值规范化",
+              "B、One-hot编码",
+              "C、数据抽样",
+              "D、类别型转化为数值型",
+            ],
+            answer: ["A"],
+          },
+          {
+            id: "R3-6",
+            score: 5,
+            content: "下列说法错误的是（单选)",
+            options: [
+              "A、数据规约可以处理正负样本差异太大的情况",
+              "B、数据压缩包括有损和无损压缩",
+              "C、小规模的数据是不可用的",
+              "D、良好的样本规约会获得较小的数据集，但是分析结果不应该变化很大",
+            ],
+            answer: ["C"],
+          },
+          {
+            id: "R3-7",
+            score: 6,
+            content:
+              "对于包含4个数据、3个属性的数据矩阵，对其进行PCA处理（仅进行数据中心化不用归一化），使用所得到的特征向量，下列说法错误的是（单选）",
+            options: [
+              "A、可以取前两大特征值对应的特征向量为主成分向量",
+              "B、PCA可能会增加属性",
+              "C、PCA特征值是从原始数据矩阵计算得到的",
+              "D、经过PCA处理后，可用的属性只可能少于3个",
+            ],
+            answer: ["A"],
+          },
+          {
+            id: "R3-8",
+            score: 6,
+            content: "对于数据预处理，下列说法错误的是（单选）",
+            options: [
+              "A、不同来源的同一数据可能以多个高度相关的数据形式存在，而不一定值相同",
+              "B、数据不够大的时候，可以采取数据增广等预处理方法",
+              "C、计算z-score值需要先计算数据的平均值和偏度",
+              "D、根据具体问题规模，对数据进行抽样，可能更好处理",
+            ],
+            answer: ["C"],
+          },
+          {
+            id: "R3-9",
+            score: 5,
+            content: "针对特殊数据类型预处理，下列说法错误的有（选择两个选项）",
+            options: [
+              "A、对文本数据处理需要进行分词",
+              "B、连续时间数据可以使用数值处理方法来进行处理",
+              "C、类别型数据使用数字代替，比使用one-hot编码好",
+              "D、类别型数据是不可能用数值型方法来处理的",
+            ],
+            answer: ["C", "D"],
+          },
+          {
+            id: "R3-10",
+            score: 5,
+            content: "数据质量说法正确的有（选择1个选项）",
+            options: [
+              "A、同一个人的年龄记录可能为年龄数值或者生日日期两种类型",
+              "B、规范化数据就是要求数据内容正确",
+              "C、疾病检测中，将患者检测为健康人称为假阳性",
+              "D、日常生活中患病样本和健康人样本的数据数量一般是差不多的",
+            ],
+            answer: ["A"],
+          },
+          {
+            id: "R3-11",
+            score: 5,
+            content: "考虑可视化数据时，错误的说法是（单选）",
+            options: [
+              "A、数据可视化需要遵从简单、专一的原则",
+              "B、可视化对向人展示结果很有帮助",
+              "C、人眼对形状比对颜色敏感",
+              "D、三维可视化图可能存在透视不合理、遮挡的问题",
+            ],
+            answer: ["D"],
+          },
+          {
+            id: "R3-12",
+            score: 5,
+            content: "原始数据需要进行数据预处理，其原因包括",
+            options: [
+              "A、原始数据通常是不完整的",
+              "B、原始数据存在不一致的情况",
+              "C、原始数据存在大量的异常和错误值",
+              "D、数据来源复杂",
+            ],
+            answer: ["A", "B", "C", "D"],
+          },
+          {
+            id: "R3-13",
+            score: 5,
+            content: "数据预处理方法包括",
+            options: [
+              "A、分类分析",
+              "B、数据清洗",
+              "C、数据规约",
+              "D、数据存储",
+            ],
+            answer: ["B", "C"],
+          },
+          {
+            id: "R3-14",
+            score: 5,
+            content: "下列说法正确的是（单选）",
+            options: [
+              "A、不同来源的数据，如果数值相同，就是重复的数据",
+              "B、天气领域使用气温数据比较适合，气象领域则可以使用寒冷、温暖、炎热在一定程度上代替气温数据",
+              "C、z-score数值规范化的中文意思是最小值最大值规范化",
+              "D、数据加权平滑就可以保证不同来源数据一致性",
+            ],
+            answer: ["B"],
+          },
+          {
+            id: "R3-15",
+            score: 6,
+            content:
+              "关于数据预处理、数据可视化、数据特征，下列说法正确的有（选择两个选项）",
+            options: [
+              "A、数据可视化不仅可以展示数据处理后的效果，也可以在数据预处理开始前展示原始数据",
+              "B、对原始数据进行特征提取后的结果，再次进行处理可以获得独立于原始数据的外部新信息",
+              "C、平均差比方差更适合表示数据离散程度",
+              "D、社会收入水平用四分位数表征比平均值更合适",
+            ],
+            answer: ["A", "D"],
+          },
+          {
+            id: "R3-16",
+            score: 5,
+            content: "下列说法错误的有（单选）",
+            options: [
+              "A、数据规约包括但不限于样本数量规约和维度规约",
+              "B、特征选择后的属性是原来属性的子集，而特征提取可能会构建新的特征",
+              "C、数据挖掘使用抽样是因为从外界获得所有的数据太少了",
+              "D、维度规约包括但不限于特征选择和特征创建",
+            ],
+            answer: ["C"],
+          },
+          {
+            id: "R3-17",
+            score: 5,
+            content: "关于数据预处理和数据可视化下列说法错误的有（单选）",
+            options: [
+              "A、柱状图不一定按照数值大小排序",
+              "B、饼图可以通过半径长、弧宽来表示两种属性维度",
+              "C、饼图应按照从大到小从12点方向顺时针排序",
+              "D、当各个数据大小比较接近时，适合使用饼图进行展示",
+            ],
+            answer: ["D"],
+          },
+          {
+            id: "R3-18",
+            score: 5,
+            content: "下列说法错误的是（单选）",
+            options: [
+              "A、准确度是(真阳性+真阴性)/总样本",
+              "B、假阳性是阴性数据被鉴别为阳性",
+              "C、准确度是(真阳性+假阳性)/阳性样本数",
+              "D、真阴性指的是阴性数据被鉴别为阴性",
+            ],
+            answer: ["C"],
+          },
+          {
+            id: "R3-19",
+            score: 5,
+            content:
+              "对于包含4个数据、3个属性的数据矩阵data对其进行PCA处理（仅进行数据中心化不用归一化），其中说法正确的有（单选）",
+            options: [
+              "A、数据规范化需要每个数据项减去每个数据项本身的均值",
+              "B、最小主成分向量对应的数据属性一定是没用的",
+              "C、原始数据与PCA得到的符合要求的特征向量点乘后，得到新的数据",
+              "D、数据集在超空间中映射为椭球，则最大主成分向量对应椭圆的短轴",
+            ],
+            answer: ["C"],
+          },
+          {
+            id: "R3-20",
+            score: 5,
+            content: "下列说法错误的有（选择两个选项）",
+            options: [
+              "A、数据量很大、难以处理的时候，可以进行数据抽样/重采样",
+              "B、数据量不大的时候，肯定不需要执行数据规约",
+              "C、数据规约可能会带来一定的信息损失",
+              "D、不同样本差异量存在差异的时候，只需要减少规模较大的样本数量",
+            ],
+            answer: ["B", "D"],
+          },
+        ],
+      
+    
+  },
+];
+  
+    // Global variables
+    let currentChapterData = null;
+    let currentProblemIndex = 0;
+    let correctAnswersCount = 0;
+    let userSelectedOptions = []; 
+    let bookmarkedProblems = JSON.parse(localStorage.getItem('bookmarkedMultiplyProblems')) || {};
+    let feedbackShown = false;
+
+    // DOM Elements
+    const chapterListEl = document.getElementById('chapterList');
+    const questionContainerEl = document.getElementById('questionContainer');
+    const questionTitleEl = document.getElementById('questionTitle');
+    const optionsListEl = document.getElementById('optionsList');
+    const feedbackEl = document.getElementById('feedback');
+    const explanationEl = document.getElementById('explanation');
+    const markBtnEl = document.getElementById('markBtn');
+    const checkAnswerBtnEl = document.getElementById('checkAnswerBtn');
+    const nextBtnEl = document.getElementById('nextBtn');
+    const prevBtnEl = document.getElementById('prevBtn');
+    const statsEl = document.getElementById('stats');
+    const progressFillEl = document.getElementById('progressFill');
+
+    function initChapters() {
+      chapterListEl.innerHTML = ''; 
+      multiplyProblems.forEach(chapter => {
+        const btn = document.createElement('button');
+        btn.className = 'chapter-btn';
+        btn.textContent = chapter.class;
+        btn.addEventListener('click', () => selectChapter(chapter));
+        chapterListEl.appendChild(btn);
+      });
+    }
+
+    function selectChapter(chapterData) {
+      currentChapterData = chapterData;
+      currentProblemIndex = 0;
+      correctAnswersCount = 0;
+      questionContainerEl.style.display = 'block';
+      markBtnEl.style.display = 'inline-block'; // Show mark button when chapter starts
+      updateStats();
+      loadProblem();
+    }
+
+    function loadProblem() {
+      feedbackShown = false;
+      userSelectedOptions = []; 
+      const problem = currentChapterData.problems[currentProblemIndex];
+
+      questionTitleEl.innerHTML = `<strong>${currentProblemIndex + 1}/${currentChapterData.problems.length}</strong> (${problem.score}分) ${problem.content}`;
+      optionsListEl.innerHTML = ''; 
+
+      problem.options.forEach(optionText => {
+        const optionValue = optionText.charAt(0); 
+        const optionItem = document.createElement('div');
+        optionItem.className = 'option-item';
+        optionItem.textContent = optionText;
+        optionItem.dataset.value = optionValue;
+        optionItem.addEventListener('click', () => handleOptionSelect(optionItem, optionValue));
+        optionsListEl.appendChild(optionItem);
+      });
+
+      feedbackEl.style.display = 'none';
+      explanationEl.style.display = 'none';
+      checkAnswerBtnEl.style.display = 'inline-block';
+      checkAnswerBtnEl.disabled = false;
+      nextBtnEl.style.display = 'none';
+      
+      updateBookmarkButton();
+      updateProgress();
+      updateStats(); 
+    }
+
+    function handleOptionSelect(optionItem, optionValue) {
+      if (feedbackShown) return; 
+
+      const index = userSelectedOptions.indexOf(optionValue);
+      if (index > -1) {
+        userSelectedOptions.splice(index, 1); 
+        optionItem.classList.remove('selected');
+      } else {
+        userSelectedOptions.push(optionValue); 
+        optionItem.classList.add('selected');
+      }
+    }
+    
+    function checkAnswer() {
+      if (userSelectedOptions.length === 0) {
+        alert("请至少选择一个选项！");
+        return;
+      }
+      feedbackShown = true;
+      checkAnswerBtnEl.disabled = true;
+
+      const problem = currentChapterData.problems[currentProblemIndex];
+      const correctProblemAnswers = problem.answer.slice().sort(); 
+      const userSelectedSorted = userSelectedOptions.slice().sort();
+
+      let isFullyCorrect = correctProblemAnswers.length === userSelectedSorted.length &&
+                         correctProblemAnswers.every((val, idx) => val === userSelectedSorted[idx]);
+
+      feedbackEl.style.display = 'block';
+      if (isFullyCorrect) {
+        feedbackEl.className = 'feedback correct';
+        feedbackEl.textContent = '✓ 回答正确！';
+        correctAnswersCount++;
+      } else {
+        feedbackEl.className = 'feedback incorrect';
+        feedbackEl.textContent = `✗ 回答错误！正确答案是：${problem.answer.join(', ')}`;
+      }
+
+      document.querySelectorAll('.option-item').forEach(item => {
+        const val = item.dataset.value;
+        // Reset visual states before applying new ones
+        item.classList.remove('selected', 'correct-choice', 'incorrect-choice', 'missed-choice');
+
+        if (userSelectedOptions.includes(val)) {
+            item.classList.add('selected'); // User picked this
+            if (problem.answer.includes(val)) {
+                 // User picked a correct option - already styled by 'selected' and will be by 'correct-choice'
+            } else {
+                item.classList.add('incorrect-choice'); // User picked a wrong option
+            }
+        }
+
+        if (problem.answer.includes(val)) {
+            item.classList.add('correct-choice'); // This is a correct option, mark it
+             if (!userSelectedOptions.includes(val)) {
+                // item.classList.add('missed-choice'); // User missed this correct one
+            }
+        }
+      });
+
+
+      if (problem.explanation) {
+        explanationEl.innerHTML = `<strong>解析：</strong>${problem.explanation}`; // Use innerHTML for potential formatting
+        explanationEl.style.display = 'block';
+      } else {
+        explanationEl.innerHTML = '<strong>解析：</strong>暂无解析';
+        explanationEl.style.display = 'block'; 
+      }
+
+      checkAnswerBtnEl.style.display = 'none';
+      nextBtnEl.style.display = 'inline-block';
+      updateStats(); 
+    }
+
+    function nextProblem() {
+      currentProblemIndex++;
+      if (currentProblemIndex < currentChapterData.problems.length) {
+        loadProblem();
+      } else {
+        questionTitleEl.textContent = `章节练习完成！`;
+        optionsListEl.innerHTML = '';
+        feedbackEl.className = 'feedback correct';
+        feedbackEl.textContent = `本章节练习完成！正确率：${Math.round(correctAnswersCount / currentChapterData.problems.length * 100)}% (${correctAnswersCount}/${currentChapterData.problems.length})`;
+        feedbackEl.style.display = 'block';
+        explanationEl.style.display = 'none';
+        checkAnswerBtnEl.style.display = 'none';
+        nextBtnEl.style.display = 'none';
+        markBtnEl.style.display = 'none'; 
+      }
+    }
+
+    function prevProblem() {
+        currentProblemIndex--;
+        if (currentProblemIndex >= 0) {
+            loadProblem();
+        }
+    }
+    
+    function updateStats() {
+      if (currentChapterData) {
+        const totalProblems = currentChapterData.problems.length;
+        // For stats, consider a problem "attempted" once its answer is checked.
+        const attemptedProblems = feedbackShown ? currentProblemIndex + 1 : currentProblemIndex;
+         // Calculate accuracy based on problems where feedback has been shown
+        const problemsChecked = currentProblemIndex + (feedbackShown || currentProblemIndex === totalProblems ? 1 : 0);
+        // Ensure we don't count the current problem before it's answered for accuracy
+        const relevantProblemCountForAccuracy = (currentProblemIndex === totalProblems && feedbackShown) ? totalProblems : (feedbackShown ? currentProblemIndex + 1 : currentProblemIndex);
+
+
+        let accuracy = 0;
+        if (relevantProblemCountForAccuracy > 0) {
+            accuracy = Math.round(correctAnswersCount / relevantProblemCountForAccuracy * 100);
+        }
+        
+        statsEl.textContent = 
+          `${currentChapterData.class} - 进度: ${currentProblemIndex + 1}/${totalProblems} | 正确: ${correctAnswersCount} | 正确率: ${accuracy}%`;
+      } else {
+        statsEl.textContent = '';
+      }
+    }
+
+    function updateProgress() {
+      if (currentChapterData) {
+        const progressPercentage = ((currentProblemIndex + 1) / currentChapterData.problems.length) * 100;
+        progressFillEl.style.width = `${progressPercentage}%`;
+      }
+    }
+
+    function toggleBookmark(problemId) {
+      if (bookmarkedProblems[problemId]) {
+        delete bookmarkedProblems[problemId];
+      } else {
+        bookmarkedProblems[problemId] = true;
+      }
+      localStorage.setItem('bookmarkedMultiplyProblems', JSON.stringify(bookmarkedProblems));
+      updateBookmarkButton();
+    }
+    
+    function updateBookmarkButton() {
+        if (!currentChapterData || !currentChapterData.problems[currentProblemIndex]) return;
+        const problemId = currentChapterData.problems[currentProblemIndex].id;
+        if (bookmarkedProblems[problemId]) {
+            markBtnEl.classList.add('active'); 
+            markBtnEl.textContent = '已收藏 ★';
+        } else {
+            markBtnEl.classList.remove('active');
+            markBtnEl.textContent = '收藏本题';
+        }
+    }
+
+    function init() {
+      initChapters();
+      checkAnswerBtnEl.addEventListener('click', checkAnswer);
+      nextBtnEl.addEventListener('click', nextProblem);
+      prevBtnEl.addEventListener('click', prevProblem);
+      markBtnEl.addEventListener('click', () => {
+        if (currentChapterData && currentChapterData.problems[currentProblemIndex]) {
+          const problemId = currentChapterData.problems[currentProblemIndex].id;
+          toggleBookmark(problemId);
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

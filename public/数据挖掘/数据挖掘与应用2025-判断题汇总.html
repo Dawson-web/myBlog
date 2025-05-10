@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>成信大数据挖掘与应用2025 - 单选题汇总</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #1a73e8;
+      font-weight: 600;
+    }
+    .chapter-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .chapter-btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .chapter-btn:hover {
+      background-color: #0d62c1;
+      transform: translateY(-2px);
+    }
+    .question-container {
+      display: none;
+      background-color: #f8f9fa;
+      padding: 25px;
+      border-radius: 10px;
+      margin-top: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .question-title {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .options-list {
+      margin-left: 20px;
+    }
+    .option-item {
+      margin: 15px 0;
+      padding: 12px 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover {
+      background-color: #f5f5f5;
+    }
+    .option-item.selected {
+      border-color: #1a73e8;
+      background-color: #e8f0fe;
+    }
+    .feedback {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 500;
+      display: none;
+    }
+    .feedback.correct {
+      background-color: #ecf8f2;
+      color: #0d904f;
+      border-left: 4px solid #0d904f;
+    }
+    .feedback.incorrect {
+      background-color: #fdf2f2;
+      color: #e53e3e;
+      border-left: 4px solid #e53e3e;
+    }
+    .btn-container{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .prev-btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s;
+    }
+    .prev-btn:hover {
+      background-color: #0d62c1;
+    }
+
+    .next-btn {
+      display: none;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.3s;
+    }
+    .next-btn:hover {
+      background-color: #0d62c1;
+    }
+    .stats {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+    .progress-bar {
+      height: 10px;
+      background-color: #eee;
+      border-radius: 5px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #1a73e8;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container">
+    <h1>成信大数据挖掘与应用2025 - 章节练习</h1>
+    
+    <div class="chapter-list" id="chapterList"></div>
+    
+    <div class="question-container" id="questionContainer">
+      <div class="question-title" id="questionTitle"></div>
+      <div class="options-list" id="optionsList"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="btn-container">
+        <button class="next-btn" id="nextBtn">下一题</button>
+        <button class="prev-btn" id="prevBtn">上一题</button>
+
+      </div>
+    
+    </div>
+    
+    <div class="stats" id="stats"></div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <script>
+const judgeProblems = [
+  {
+    class: "分类",
+    problems: [
+      {
+        id: "R1-1",
+        score: 3,
+        content: "公司可以采用分类方法，提前预测新产品更受哪些客户群体欢迎。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-2",
+        score: 3,
+        content: "用训练数据评估分类器的准确率，容易发生过拟合。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 3,
+        content: "一棵决策树，所有叶子节点必须在同一层次。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-4",
+        score: 3,
+        content: "C4.5决策树算法，是自顶向下构造的。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 4,
+        content: "ID3直接使用信息熵作为属性选择度量方法。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-6",
+        score: 4,
+        content: "增益率作为分裂属性，也存在分裂不平衡的问题。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-1",
+        score: 3,
+        content:
+          "当前的分类和预测技术只能处理大规模数据，对小规模数据没有处理方法。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-2",
+        score: 3,
+        content: "一般来说，测试数据不会用来进行分类训练。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 3,
+        content:
+          "根据属性测试判断结果的情况，决策树非子节点，可能有多个不同的分支。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-4",
+        score: 3,
+        content: "ID3决策树算法，是一种无监督学习算法。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-5",
+        score: 4,
+        content: "ID3直接使用信息熵作为属性选择度量方法。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-6",
+        score: 4,
+        content: "将熵引改善为分裂属性，虽然信息增益可能会很大，但是不合理。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-1",
+        score: 3,
+        content: "公司可以采用分类方法，提前预测新产品更受哪些客户群体欢迎。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-2",
+        score: 3,
+        content: "有监督学习的分类中，训练集数据定义无需指定类别。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-3",
+        score: 3,
+        content: "一棵决策树，所有叶子节点必须在同一层次。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-4",
+        score: 3,
+        content: "C4.5决策树算法，是自顶向下构造的。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 4,
+        content: "ID3直接使用信息熵作为属性选择度量方法。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-6",
+        score: 4,
+        content: "将熵引改善为分裂属性，虽然信息增益可能会很大，但是不合理。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+    ],
+  },
+  {
+    class: "回归",
+    problems: [
+      {
+        id: "R1-1",
+        score: 2,
+        content: "关于回归分析，自变量和因变量一定是线性关系",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-2",
+        score: 2,
+        content:
+          "关于多元回归模型，可以通过对自变量进行数据变换来处理非线性过程",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 2,
+        content: "关于最小二乘法，核心思路是让回归模型的误差E=B-WX 越小越好",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-4",
+        score: 2,
+        content:
+          "关于回归模型指标，赤池信息准则要求模型准确，不要求回归参数尽量少",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-5",
+        score: 2,
+        content: "关于岭回归，入参数越大，模型准确度越高",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-1",
+        score: 2,
+        content: "关于回归分析，自变量和因变量一定是线性关系",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-2",
+        score: 2,
+        content: "求解多元回归模型B=WX，必须要求绝大部分数据在WX直线或超平面上",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-3",
+        score: 2,
+        content:
+          "关于最小二乘法，核心思路是让回归模型的误差平方和E^2=|B-WX|^2 越小越好",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-4",
+        score: 2,
+        content: "关于回归模型指标，模型过拟合会让贝叶斯信息准则指标很小",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 2,
+        content: "关于岭回归，入参数越小，越不能防止过拟合问题",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 2,
+        content:
+          "关于岭回归，加入入参数后，依然要求回归模型方程满足最小距离条件",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-6",
+        score: 2,
+        content: "将引起引改善为分数属性，虽然信息增益可能会很大，但是不合理",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-1",
+        score: 2,
+        content: "关于回归分析，自变量和因变量一定是线性关系",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-2",
+        score: 2,
+        content: "求解多元回归模型B=WX，必须要求绝大部分数据在WX直线或超平面上",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-3",
+        score: 2,
+        content:
+          "关于最小二乘法，核心思路是让回归模型的误差平方和E^2=|B-WX|^2 越小越好",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-4",
+        score: 2,
+        content: "关于回归模型指标，模型过拟合合会让贝叶斯信息准则指标很小",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 2,
+        content:
+          "关于岭回归，加入入参数后，依然要求回归模型方程满足最小距离条件",
+        options: ["T", "F"],
+        answer: "T",
+      },
+    ],
+  },
+  {
+    class: "聚类",
+    problems: [
+      {
+        id: "R1-1",
+        score: 5,
+        content: "kNN算法和kmeans算法中的k代表的是相同含义。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-2",
+        score: 5,
+        content: "DBSCAN是一种基于密度的聚类方法，容易发现特殊形状的簇。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 5,
+        content: "K均值算法中，k值取得过大或过小均会对聚类结果造成影响。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-4",
+        score: 5,
+        content: "K-means算法和kNN算法都需要寻找距离最近的点。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 5,
+        content: "对于一系列密度可达的点而言，其领域范围内的点都是密度相连的。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-6",
+        score: 5,
+        content: "k-means算法，k-中心点算法和k-means++算法均需提前设定k值。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-1",
+        score: 5,
+        content: "聚类针对有标签的数据。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-2",
+        score: 5,
+        content: "K均值算法中，k值取得过大或过小均会对聚类结果造成影响。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 5,
+        content: "K-means算法可以处理标称类型属性的数据。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-4",
+        score: 5,
+        content: "K-means算法和kNN算法都需要寻找距离最近的点。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 5,
+        content:
+          "如果对象X到对象Y直直接密度可达的，那么对象Y到对象X也直接密度可达的。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-6",
+        score: 5,
+        content:
+          "分裂式层次聚类又称为自底向上方法，凝聚式层次聚类又称为自顶向下方法。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-1",
+        score: 5,
+        content: "聚类针对有标签的数据。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-2",
+        score: 5,
+        content: "聚类与分类的主要区别在于是否需要预先定义好类别。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 5,
+        content:
+          "聚类分析的过程中，当紧密度较好时，两千个一个簇的对象相似度较高，而两千不同簇的对象相似度低。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-4",
+        score: 5,
+        content: "基于密度的聚类方法只能对凸体本集进行聚类。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-5",
+        score: 5,
+        content:
+          "分裂式层次聚类又称为自底向上方法，凝聚式层次聚类又称为自顶向下方法。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-6",
+        score: 5,
+        content:
+          "基本划分的聚类方法采取互斥所属划分，即每个对象必须属于且只属于一个簇。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+    ],
+  },
+  {
+    class: "数据预处理",
+    problems: [
+      {
+        id: "R1-1",
+        score: 1,
+        content: "数据的众数可以有很多个。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-2",
+        score: 1,
+        content: "对于左偏分布数据，其中众数<中位数<均值",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-3",
+        score: 1,
+        content:
+          "数据清洗包括但不限于：处理数据冗余、填充遗漏值、修复错误值、处理异常值。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-4",
+        score: 2,
+        content: "抽样样本与使用整个数据集的处理效果差异不大，说明是有效抽样。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 2,
+        content:
+          "用方差而不是平均差来表示离散程度，其原因包括：平方给较大的偏差以更大的惩罚。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-6",
+        score: 2,
+        content:
+          "对数据进行PCA处理后，所得到的协方差矩阵的数据就是转换后的新数据。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-1",
+        score: 2,
+        content: "特征提取不可能减少数据的属性数量。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-2",
+        score: 1,
+        content: "饼图应按照逆时针方向而不是顺时针方向从大到小进行数据可视化。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 1,
+        content: "数据发生重复，说明数据的准确性不好。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-4",
+        score: 1,
+        content: "对于左偏分布数据，其中众数<中位数<均值",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-5",
+        score: 2,
+        content: "PCA获取的协方差矩阵是非负的对角矩阵。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-6",
+        score: 2,
+        content: "特征创建可以增加数据集的属性数量。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-2",
+        score: 2,
+        content: "PCA获取的协方差矩阵是非负的对角矩阵。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 1,
+        content:
+          "对一列数据进行z-score规范化，计算方法为(数值-均值)/方差，不能除以标准差。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-4",
+        score: 2,
+        content: "样本规约方法包括抽样、数据聚类、PCA。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 2,
+        content:
+          "用方差而不是平均差来表示离散程度，其原因包括：平方给较大的偏差以更大的惩罚。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-6",
+        score: 1,
+        content: "饼图应按照逆时针方向而不是顺时针方向从大到小进行数据可视化。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+    ],
+  },
+  {
+    class: "频繁模式",
+    problems: [
+      {
+        id: "R1-1",
+        score: 4,
+        content:
+          "关联规则中，物品A的出现对物品B的出现概率发生的变化，称为A对B的提升度",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-2",
+        score: 4,
+        content: "无需最小支持度阈值判断是否频繁项集。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-3",
+        score: 4,
+        content:
+          "Apriori算法仅仅只需对数据扫描一次便能统计项集的支持度，发现所有的频繁项集从而生成关联规则。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-4",
+        score: 4,
+        content: "关联规则挖掘属于有监督学习方法。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-5",
+        score: 4,
+        content: "可以使用Apriori算法挖掘频繁项集。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 4,
+        content: "关联规则挖掘属于有监督学习方法。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-4",
+        score: 4,
+        content: "频繁项集不一定满足最小支持度条件。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+      {
+        id: "R1-5",
+        score: 4,
+        content: "可以使用Apriori算法挖掘频繁项集。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 4,
+        content: "可以使用Apriori算法挖掘频繁项集。",
+        options: ["A. Apriori", "B. FP-growth", "C. AdaBoost", "D. Eclat"],
+        answer: "A. Apriori",
+      },
+      {
+        id: "R1-2",
+        score: 4,
+        content:
+          "为了减少频繁项集的搜索空间，应该尽早的消除一些完全不可能是频繁项集的集合。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-3",
+        score: 4,
+        content:
+          "频繁项集的基础上生成满足最小置信度的规则，产生的规则称为强规则。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-4",
+        score: 4,
+        content: "大于或等于最小支持度阈值的项集，称之为频繁项集。",
+        options: ["T", "F"],
+        answer: "T",
+      },
+      {
+        id: "R1-5",
+        score: 4,
+        content: "关联规则挖掘属于有监督学习方法。",
+        options: ["T", "F"],
+        answer: "F",
+      },
+    ],
+  },
+];
+// 全局变量
+let currentChapter = null;
+    let currentProblemIndex = 0;
+    let correctCount = 0;
+    let selectedAnswer = null;
+    
+    // 初始化章节按钮
+    function initChapters() {
+      const chapterList = document.getElementById('chapterList');
+      
+      judgeProblems.forEach(chapter => {
+        const btn = document.createElement('button');
+        btn.className = 'chapter-btn';
+        btn.textContent = chapter.class;
+        btn.addEventListener('click', () => selectChapter(chapter));
+        chapterList.appendChild(btn);
+      });
+    }
+    
+    // 选择章节
+    function selectChapter(chapter) {
+      currentChapter = chapter;
+      currentProblemIndex = 0;
+      correctCount = 0;
+      
+      // 显示问题容器
+      document.getElementById('questionContainer').style.display = 'block';
+      
+      // 更新统计信息
+      updateStats();
+      
+      // 加载第一道题目
+      loadProblem();
+    }
+    
+    // 加载当前题目
+    function loadProblem() {
+      const problem = currentChapter.problems[currentProblemIndex];
+      
+      // 更新问题标题
+      document.getElementById('questionTitle').innerHTML = `<strong>${currentProblemIndex + 1}/${currentChapter.problems.length}</strong> (${problem.score}分) ${problem.content}`;
+      
+      // 清空选项列表
+      const optionsList = document.getElementById('optionsList');
+      optionsList.innerHTML = '';
+      
+      // 添加选项
+      problem.options.forEach((option, index) => {
+        const optionItem = document.createElement('div');
+        optionItem.className = 'option-item';
+        optionItem.textContent = option;
+        optionItem.dataset.value = option;
+        optionItem.addEventListener('click', () => selectOption(optionItem));
+        optionsList.appendChild(optionItem);
+      });
+      
+      // 隐藏反馈和下一题按钮
+      document.getElementById('feedback').style.display = 'none';
+      document.getElementById('nextBtn').style.display = 'none';
+      
+      // 重置选中的答案
+      selectedAnswer = null;
+      
+      // 更新进度条
+      updateProgress();
+    }
+    
+    // 选择选项
+    function selectOption(optionItem) {
+      if (document.getElementById('feedback').style.display === 'block') {
+        return; // 如果已经显示了反馈，不允许再次选择
+      }
+      
+      // 清除之前选中的选项
+      document.querySelectorAll('.option-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+      
+      // 选中当前选项
+      optionItem.classList.add('selected');
+      selectedAnswer = optionItem.dataset.value;
+      
+      // 检查答案
+      checkAnswer();
+    }
+    
+    // 检查答案
+    function checkAnswer() {
+      const problem = currentChapter.problems[currentProblemIndex];
+      const isCorrect = selectedAnswer === problem.answer;
+      const feedback = document.getElementById('feedback');
+      
+      // 显示反馈
+      feedback.style.display = 'block';
+      
+      if (isCorrect) {
+        feedback.className = 'feedback correct';
+        feedback.textContent = '✓ 回答正确！';
+        correctCount++;
+      } else {
+        feedback.className = 'feedback incorrect';
+        feedback.textContent = `✗ 回答错误！正确答案是：${problem.answer}`;
+      }
+      
+      // 显示下一题按钮
+      document.getElementById('nextBtn').style.display = 'block';
+      
+      // 更新统计信息
+      updateStats();
+    }
+    
+    // 下一题
+    function nextProblem() {
+      currentProblemIndex++;
+      
+      // 检查是否还有下一题
+      if (currentProblemIndex < currentChapter.problems.length) {
+        loadProblem();
+      } else {
+        // 所有题目已完成
+        document.getElementById('questionTitle').textContent = `章节练习完成！`;
+        document.getElementById('optionsList').innerHTML = '';
+        document.getElementById('feedback').className = 'feedback correct';
+        document.getElementById('feedback').textContent = `本章节练习完成！正确率：${correctCount}/${currentChapter.problems.length}`;
+        document.getElementById('feedback').style.display = 'block';
+        document.getElementById('nextBtn').style.display = 'none';
+      }
+    }
+    function prevProblem() {
+      currentProblemIndex--;
+      if (currentProblemIndex >= 0) {
+        loadProblem();
+      }
+    }
+    
+    // 更新统计信息
+    function updateStats() {
+      if (currentChapter) {
+        document.getElementById('stats').textContent = `${currentChapter.class} - 已完成：${currentProblemIndex + 1}/${currentChapter.problems.length}，正确：${correctCount}`;
+      } else {
+        document.getElementById('stats').textContent = '';
+      }
+    }
+    
+    // 更新进度条
+    function updateProgress() {
+      const progressPercentage = ((currentProblemIndex + 1) / currentChapter.problems.length) * 100;
+      document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+    }
+    
+    // 初始化页面
+    function init() {
+      initChapters();
+      document.getElementById('nextBtn').addEventListener('click', nextProblem);
+      document.getElementById('prevBtn').addEventListener('click', prevProblem);
+    }
+    
+    // 页面加载完成后初始化
+    window.addEventListener('DOMContentLoaded', init);
+ 
+  </script>
+</body>
+</html> 

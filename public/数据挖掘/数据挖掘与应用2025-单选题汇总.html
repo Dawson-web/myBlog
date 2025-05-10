@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>成信大数据挖掘与应用2025 - 单选题汇总</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #1a73e8;
+      font-weight: 600;
+    }
+    .chapter-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .chapter-btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .chapter-btn:hover {
+      background-color: #0d62c1;
+      transform: translateY(-2px);
+    }
+    .question-container {
+      display: none;
+      background-color: #f8f9fa;
+      padding: 25px;
+      border-radius: 10px;
+      margin-top: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .question-title {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .options-list {
+      margin-left: 20px;
+    }
+    .option-item {
+      margin: 15px 0;
+      padding: 12px 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .option-item:hover {
+      background-color: #f5f5f5;
+    }
+    .option-item.selected {
+      border-color: #1a73e8;
+      background-color: #e8f0fe;
+    }
+    .option-item.correct {
+      border-color: #0d904f;
+      background-color: #ecf8f2;
+    }
+    .option-item.incorrect {
+      border-color: #e53e3e;
+      background-color: #fdf2f2;
+    }
+    .feedback {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 500;
+      display: none;
+    }
+    .feedback.correct {
+      background-color: #ecf8f2;
+      color: #0d904f;
+      border-left: 4px solid #0d904f;
+    }
+    .feedback.incorrect {
+      background-color: #fdf2f2;
+      color: #e53e3e;
+      border-left: 4px solid #e53e3e;
+    }
+    .explanation {
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      border-left: 4px solid #1a73e8;
+      display: none;
+    }
+    .action-btns {
+      width: 100%;
+      display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+    .btn {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      background-color: #0d62c1;
+    }
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #1a73e8;
+      color: #1a73e8;
+    }
+    .btn-outline:hover {
+      background-color: #e8f0fe;
+    }
+    .stats {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+    .progress-bar {
+      height: 10px;
+      background-color: #eee;
+      border-radius: 5px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #1a73e8;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .bookmark-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ccc;
+      cursor: pointer;
+    }
+    .bookmark-icon.active {
+      color: #ffc107;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container">
+    <h1>成信大数据挖掘与应用2025 - 单选题复习系统</h1>
+    
+    <div class="chapter-list" id="chapterList"></div>
+    
+    <div class="question-container" id="questionContainer">
+      <div class="question-title" id="questionTitle"></div>
+      <div class="options-list" id="optionsList"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="explanation" id="explanation"></div>
+      <div class="action-btns">
+        <button class="btn" id="nextBtn">下一题</button>
+        <button class="btn btn-outline" id="prevBtn">上一题</button>
+      </div>
+    </div>
+    
+    <div class="stats" id="stats"></div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <script>
+const radioProblem = [
+  {
+    class: "分类",
+    problems: [
+      {
+        id: "R2-1",
+        score: 4,
+        content: "有关分类方法，说法有误的有：",
+        options: [
+          "A、可以用于离散类别；",
+          "B、连续取值的属性，需要额外处理",
+          "C、对于大规模的数据，需要具有一定可伸缩性",
+          "D、只能用于天气类型的判断和预测。",
+        ],
+        answer: "D", // 请核实正确答案
+      },
+      {
+        id: "R2-2",
+        score: 4,
+        content: "有关分类方法场景正确的有：",
+        options: [
+          "A、审核会员是否能够授予终身会员；",
+          "B、发现相似访问模式:",
+          "C、发现不同种类的用户群体",
+          "D、建立主題索引",
+        ],
+        answer: "A", // 请核实正确答案
+      },
+      {
+        id: "R2-3",
+        score: 4,
+        content: "提高最终分类和预测效果，预处理步骤不含有哪一项：",
+        options: [
+          "A、增加无关噪声；",
+          "B、数据转换：",
+          "C、数据清理；",
+          "D、相关分析",
+        ],
+        answer: "A", // 请核实正确答案
+      },
+      {
+        id: "R2-4",
+        score: 4,
+        content: "混淆矩阵可以用于评估分类准确率，下列说法正确的是：",
+        options: [
+          "A、两个类别的分类混淆矩阵True Positive是类别为负的元组，被错误标记为正",
+          "B、两个类别的分类混淆矩阵True Positive是类别为正的元组，被正确标记为正",
+          "C、两个类别的分类混淆矩阵，FalsePositive是类别为正的元组，被错误标记为负",
+          "D、两个类别的分类混淆矩阵，FalsePositive是类别为正的元组，被正确标记为正",
+        ],
+        answer: "B", // 请核实正确答案
+      },
+      {
+        id: "R2-5",
+        score: 4,
+        content: "属性选择度量，说法有误的是：",
+        options: [
+          "A、一种属性分裂规则；",
+          "B、能够将训练数据集最佳地划分不同的个体类别；",
+          "C、需要考虑决策树内部非叶子节点到后代叶子的平均路径最短；",
+          "D、不考虑较快分类速度",
+        ],
+        answer: "D", // 请核实正确答案D
+      },
+      {
+        id: "R2-6",
+        score: 4,
+        content: "关于经典ID3及其后继C4.5决策树算法，说法正确的是：",
+        options: [
+          "A、都采用贪心的方法。",
+          "B、都是只能节点分支为2个的决策树；",
+          "C、叶子节点都必须在同一层",
+          "D、都是先选好叶子，再逐步构造到根节点",
+        ],
+        answer: "A", // 请核实正确答案
+      },
+      {
+        id: "R2-7",
+        score: 4,
+        content: "朴素贝叶斯分类原理，说法正确有：",
+        options: [
+          "A、一系列属性出现在某一个类的概率，等于每个属性值在这个类出现概率的乘积",
+          "B、一系列属性出现在某一个类的概率，等于每个属性值在这个类出现概率的和",
+          "C、一系列属性出现在某一个类的概率，等于属性值在这个类出现最大和最小概率的差",
+          "D、一系列属性出现在某一个类的概率，等于所有属性值在这个类出现概率的均值",
+        ],
+        answer: "A", // 请核实正确答案
+      },
+      {
+        id: "R2-8",
+        score: 4,
+        content: "朴素贝叶斯分类思想，说法正确的有：",
+        options: [
+          "A、元组W归于类D'，等价于P(D'|W)>P(D|W)对于其他任意类D",
+          "B、元组W归于类D'，等价于P(D'|W)<P(D|W)对于其他任意类D",
+          "C、元组W归于类D'，等价于P(W|D')>P(W|D)对于其他任意类D",
+          "D、元组W归于类D'，等价于P(W|D')<P(W|D)对于其他任意类D",
+        ],
+        answer: "A", // 请核实正确答案
+      },
+      {
+        id: "R2-9",
+        score: 4,
+        content: "有关SVM方法，说法正确的是：",
+        options: [
+          "A、S是支持的意思；",
+          "B、V是速度的意思；",
+          "C、M是矩阵的意思：",
+          "D、V是体积的意思",
+        ],
+        answer: "A", // 请核实正确答案
+      },
+      {
+        id: "R2-10",
+        score: 4,
+        content: "有关SVM方法思想，说法正确的是：",
+        options: [
+          "A、非线性可分的原始训练数据可以映射到高维空间，进而高维空间可分；",
+          "B、非线性可分的原始训练数据必须压缩到低维空间，进而低维空间可分；",
+          "C、只有线性的SVM",
+          "D、不存在非线性的SVM",
+        ],
+        answer: "A", // 请核实正确答案
+      },
+      {
+        id: "R2-11", // Assuming a new ID for this question
+        score: 4,
+        content: "评价分类和预测的角度，说法正确的是:",
+        options: [
+          "A、可解释性；",
+          "B、鲁棒性:",
+          "C、准确率;",
+          "D、以上说法都对",
+        ],
+        answer: "D", // 请核实正确答案
+      },
+      {
+        id: "R2-12", // Assuming a new ID for this question
+        score: 4,
+        content: "有关决策树构成，说法有误的是：",
+        options: [
+          "A、测试属性在内节点；",
+          "B、测试结果在分支；",
+          "C、叶子节点代表类别；",
+          "D、叶子节点一定都在同一层",
+        ],
+        answer: "D", // 请核实正确答案
+      },
+      {
+        id: "R2-13", // Assuming a new ID for this question
+        score: 4,
+        content:
+          "从条件概率公式P(A|B)=P(AB)/P(B)，理解贝叶斯定理P(B|A)P(A)/P(B)，说法正确的有：",
+        options: [
+          "A、根据概念P(B|A)=P(BA)/P(A)",
+          "B、由P(AB)=P(A|B)P(B)可推导P(B|A)=P(AB)P(A)/P(B)；事件A和B同时发生的事件概率P(AB)=P(A)P(B|A)",
+          "C、P(D|W)>P(D|W)对于其他任意类D", // 此选项似乎与其他问题混淆
+          "D、以上说法都正确",
+        ],
+        answer: "D", // 请核实正确答案和选项
+      },
+      {
+        id: "R2-14", // Assuming a new ID for this question
+        score: 4,
+        content: "有关支持向量机，类别说法正确的是:",
+        options: [
+          "A、是一种非监督学习；",
+          "B、是一种监督学习；",
+          "C、只针对线性数据:",
+          "D、只针对非线性数据",
+        ],
+        answer: "B", // 请核实正确答案
+      },
+      {
+        id: "R2-15", // Assuming a new ID for this question
+        score: 4,
+        content: "有关SVM设计思想，说法有误的是：",
+        options: [
+          "A、搜索线性最优分类超平面；",
+          "B、寻找不同类型的决策边界；",
+          "C、线性可分时，距离分类超平面最近的样本点，是支持向量;",
+          "D、线性可分时，需要构建非线性的SVM",
+        ],
+        answer: "D", // 请核实正确答案
+      },
+      {
+        id: "R2-16", // Assuming a new ID for this question
+        score: 4,
+        content: "关于数据分类的两步过程，说法正确的有：",
+        options: [
+          "A、无需建立数据模型",
+          "B、无需构造分类器",
+          "C、需要分析已有数据",
+          "D、测试集与训练集必须相关",
+        ],
+        answer: "C", // 请核实正确答案
+      },
+      {
+        id: "R2-17", // Assuming a new ID for this question
+        score: 4,
+        content: "使用混淆矩阵评估度量二分类的准确率，说法有误的是：",
+        options: [
+          "A、预测类别只能有两种",
+          "B、实际类别只能有两种",
+          "C、预测类别的结果可能正确或有误",
+          "D、预测类别的结果不会有误",
+        ],
+        answer: "D", // 请核实正确答案
+      },
+      {
+        id: "R2-18", // Assuming a new ID for this question
+        score: 4,
+        content: "朴素贝叶斯分类阶段，说法有误有：",
+        options: [
+          "A、需要计算各个类别的概率",
+          "B、需要计算该系列属性出现在各个类别的概率",
+          "C、需要计算该系列属性出现在某个类别的概率与该类别概率的乘积",
+          "D、无需计算类别概率",
+        ],
+        answer: "D", // 请核实正确答案
+      },
+    ],
+  },
+  {
+    class: "回归",
+    problems: [
+      {
+        id: "R2-1",
+        score: 5,
+        content: "关于回归说法错误的是：",
+        options: [
+          "A、线性回归不能变成非线性回归形式",
+          "B、线性回归同样可以解决非线性回归",
+          "C、简单线性回归要求不同性和误差之间是独立的",
+          "D、只包括一个自变量和一个因变量，且二者的关系可用一条直线近似表示，这种回归分析称为一元线性回归分析",
+        ],
+        answer: "A",
+      },
+      {
+        id: "R2-2",
+        score: 5,
+        content: "关于多元线性回归，说法错误的是：",
+        options: [
+          "A、大部分数据具有误差，并不在直线上",
+          "B、多元线性回归的求解结果可使得大部分数据用一条最优直线来拟合",
+          "C、现实中的线性回归方程存在精确解",
+          "D、线性回归模型的自变量和因变量都是已知量",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-3",
+        score: 5,
+        content: "关于最小二乘法，说法错误的是：",
+        options: [
+          "A、可求解的回归方程组参数必须能够组成满秩矩阵",
+          "B、线性回归可以写成数据向量与权重的线性组合",
+          "C、回归方程组需要记得包含偏置量",
+          "D、回归方程的最小二乘解是原回归方程组的精确解析解",
+        ],
+        answer: "D",
+      },
+      {
+        id: "R2-4",
+        score: 5,
+        content: "关于最小二乘法求解过程，说法错误的是：",
+        options: [
+          "A、回归模型B=WX中，WX已经包含了偏置参数",
+          "B、回归模型B=WX中，最小二乘解能够让数据均处于一个直线/平面上",
+          "C、回归模型B=WX中，误差E=B-WX的元素值可能有正有负",
+          "D、回归模型B=WX中，误差E=B-WX向量并不垂直于B平面，而是垂直于WX平面",
+        ],
+        answer: "B",
+      },
+      {
+        id: "R2-5",
+        score: 5,
+        content: "关于最小二乘法求解过程，说法错误的是",
+        options: [
+          "A、多元回归模型B=WX，最小二乘法的求解思路是让误差向量平方E^2=(B-WX)^2最小",
+          "B、让误差向量平方E^2=(B-WX)^2最小的原因是误差有正有负",
+          "C、让误差向量平方E^2=(B-WX)^2最小的误差向量平方E^2=(B-WX)^2最小满足X^2W-X^7B=B",
+          "D、多元回归模型B=WX中，矩阵是可以求导的",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-6",
+        score: 5,
+        content: "关于最小二乘法迭代求解线性回归模型B=WX，说法错误的是：",
+        options: [
+          "A、下降法求解过程中，W沿着负梯度方向前进",
+          "B、通过一次下降迭代即可获取最小二乘法的解",
+          "C、学习率是下降过程中每次步进的距离",
+          "D、下降法通过最小化误差平方和||B-WX||²来解决线性回归模型",
+        ],
+        answer: "B",
+      },
+      {
+        id: "R2-7",
+        score: 5,
+        content: "关于回归模型评价指标，说法正确的是：",
+        options: [
+          "A、贝叶斯信息准则缩写为AIC",
+          "B、欠拟合导致贝叶斯信息准则很大，过拟合导致贝叶斯信息准则很小",
+          "C、贝叶斯信息准则对参数数量敏感度比赤池信息准则高",
+          "D、赤池信息准则不考虑参数个数",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-8",
+        score: 5,
+        content: "关于岭回归和回归模型B=WX，说法错误的是:",
+        options: [
+          "A、如果回归模型数据相关系数较高，则会导致最小二乘解病态",
+          "B、因为岭回归，自变量和因变量不再存在线性关系",
+          "C、岭回归参数需要人为设置",
+          "D、岭回归为线性回归",
+        ],
+        answer: "B",
+      },
+      {
+        id: "R2-9",
+        score: 5,
+        content: "关于回归神经网络，说法错误的是：",
+        options: [
+          "A、神经网络框架包括PyTorch和TensorFlow等",
+          "B、神经网络使用均方差损失函数来实现回归分析",
+          "C、分类神经网络和回归神经网络的模型结构是一致的",
+          "D、神经网络可以求解线性和非线性回归问题",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-10",
+        score: 5,
+        content: "关于回归分析，说法正确的是：",
+        options: [
+          "A、回归神经网络的最后一层一般是Softmax层",
+          "B、多元回归模型不能求解非线性问题",
+          "C、回归模型的贝叶斯信息准则指标值越大说明模型效果越好",
+          "D、岭回归中的λ参数可以人为设定",
+        ],
+        answer: "D",
+      },
+    ],
+  },
+  {
+    class: "聚类",
+    problems: [
+      {
+        id: "R2-1",
+        score: 1,
+        content:
+          "当不知道数据所带的标签时，可以使用下列哪种技术促使同类数据与其他类数据相分离？",
+        options: ["A、分类", "B、聚类", "C、关联分析", "D、隐马尔科夫"],
+        answer: "B",
+      },
+      {
+        id: "R2-2",
+        score: 1,
+        content:
+          "简单地将数据对象划分成不重叠的子集，使得每个数据对象恰在一个子集中，这种聚类类型称作",
+        options: ["A、层次聚类", "B、划分聚类", "C、密度聚类", "D、模糊聚类"],
+        answer: "B",
+      },
+      {
+        id: "R2-3",
+        score: 1,
+        content: "关于k-means算法，下列描述正确的是",
+        options: [
+          "A、能找到任意形状的聚类",
+          "B、不能使用核函数(kernel function)",
+          "C、每次迭代的时间复杂度是O(n²)，其中n是样本数量",
+          "D、初始值不同，最终聚类结果可能不同",
+        ],
+        answer: "D",
+      },
+      {
+        id: "R2-4",
+        score: 1,
+        content: "以下哪种情况对k-means算法的影响较小（答案有问题待修改）",
+        options: [
+          "A、簇的大小分布不均衡",
+          "B、数据有各向异性分布",
+          "C、给定错误聚类个数",
+          "D、不同簇的方差相差较大",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-5",
+        score: 1,
+        content: "以下不属于聚类算法的是",
+        options: [
+          "A、K均值算法",
+          "B、DIANA算法",
+          "C、朴素贝叶斯算法",
+          "D、AGNES算法",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-6",
+        score: 1,
+        content: "聚类分析是一种建立分类的统计分析方法",
+        options: ["A、一元", "B、二元", "C、多元", "D、三元"],
+        answer: "C",
+      },
+      {
+        id: "R2-7",
+        score: 1,
+        content: "下面关于DBSCAN算法的描述不正确的是",
+        options: [
+          "A、集群中的数据点必须处于到核心点的距离阈值内",
+          "B、它对数据空间中数据点的分布有很强的假设",
+          "C、它不需要预先知道期望出现的簇的数量",
+          "D、它对于异常值具有强大的作用",
+        ],
+        answer: "B",
+      },
+      {
+        id: "R2-8",
+        score: 1,
+        content: "DBSCAN之所以难以有效地应用于高维度数据，是因为",
+        options: [
+          "A、数据的形状太复杂",
+          "B、簇的大小未知",
+          "C、噪声点过多",
+          "D、开销过大",
+        ],
+        answer: "D",
+      },
+      {
+        id: "R2-9",
+        score: 1,
+        content:
+          "通过代码from sklearn.cluster import KMeans; kmeans = KMeans(n_clusters=3)进行聚类后，以下哪个代码可以查看样本所属簇的标签？",
+        options: [
+          "A、kmeans.labels_",
+          "B、kmeans.y_",
+          "C、kmeans.target_",
+          "D、kmeans.output_",
+        ],
+        answer: "A",
+      },
+      {
+        id: "R2-10",
+        score: 1,
+        content: "在DBSCAN算法中，以下哪个参数代表邻域半径",
+        options: [
+          "A、簇的个数",
+          "B、每个簇的最小样本数",
+          "C、邻域半径",
+          "D、收敛条件阈值",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-11",
+        score: 1,
+        content: "给定密度阈值为3，对象O的邻域中有5个对象，那么O是",
+        options: ["A、核心点", "B、集中点", "C、边缘点", "D、噪声点"],
+        answer: "A",
+      },
+      {
+        id: "R2-12",
+        score: 1,
+        content:
+          "在聚类分析中，簇内的相似性越大，簇间的差别越大，聚类的效果就越差",
+        options: ["A、正确", "B、错误"],
+        answer: "B",
+      },
+      {
+        id: "R2-13",
+        score: 1,
+        content:
+          "K均值聚类分析中，数据对象一旦被划入某一类就不可再改变，这种说法正确吗",
+        options: ["A、正确", "B、错误"],
+        answer: "B",
+      },
+      {
+        id: "R2-14",
+        score: 1,
+        content: "以下哪种算法不属于基于划分的聚类算法",
+        options: ["A、k中心点", "B、BIRCH", "C、k-means", "D、CLARANS"],
+        answer: "B",
+      },
+      {
+        id: "R2-15",
+        score: 1,
+        content: "下列机器学习常用算法中，哪个是聚类算法而不属于分类算法",
+        options: [
+          "A、最小距离分类器",
+          "B、kNN(k近邻)",
+          "C、K-means",
+          "D、逻辑回归",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-16",
+        score: 1,
+        content:
+          "对于DBSCAN，参数Eps(邻域半径)固定，当MinPts取值较大时，会导致",
+        options: [
+          "A、能很好的区分各类簇",
+          "B、高密度的点的聚集区划分为簇，其余划分为噪声",
+          "C、低密度的点的聚集区划分为簇，其余划分为噪声",
+          "D、无影响",
+        ],
+        answer: "B",
+      },
+      {
+        id: "R2-17",
+        score: 1,
+        content: "以下哪些方法可以确定k均值算法已经收敛",
+        options: [
+          "A、划分不再改变",
+          "B、聚类中心不再改变",
+          "C、固定次数的迭代",
+          "D、以上三种均是",
+        ],
+        answer: "D",
+      },
+    ],
+  },
+  {
+    class: "频繁模式",
+    problems: [
+      {
+        id: "R2-1",
+        score: 4,
+        content:
+          "某个包含20个事务的事务数据库中，有8个事务包含事件A，那么A的支持度是多少：",
+        options: ["A、20%", "B、40%", "C、60%", "D、80%"],
+        answer: "B",
+      },
+      {
+        id: "R2-2",
+        score: 4,
+        content:
+          "某事务数据库中，包含X的事务数为10，包含X的事务中，Y事件出现了3次，则其置信度为：",
+        options: ["A、10%", "B、20%", "C、30%", "D、40%"],
+        answer: "C",
+      },
+      {
+        id: "R2-3",
+        score: 4,
+        content: "关于Apriori算法，描述正确的是：",
+        options: [
+          "A、如果一个项集是频繁的，则它的所有子集一定也是频繁的；",
+          "B、如果一个项集是频繁的，但它的所有子集不一定也是频繁的；",
+          "C、如果项集是非频繁的，它的所有超集不一定是非频繁的。",
+          "D、该算法不用扫描遍历事务数据库",
+        ],
+        answer: "A",
+      },
+      {
+        id: "R2-4",
+        score: 4,
+        content:
+          "1000名顾客，分为A、B两组购买年货。每组各500人。A组有500人购买茶叶，有450人购买咖啡；B组有0人购买茶叶，有450人购买咖啡。下列说法错误的是：",
+        options: [
+          "A、茶叶→咖啡的提升度=90%/90%=1",
+          "B、茶叶→咖啡的置信度=450/500=90%",
+          "C、茶叶→咖啡的支持度=450/1000=45%",
+          "D、上述选项均不正确",
+        ],
+        answer: "D",
+      },
+      {
+        id: "R2-5",
+        score: 4,
+        content:
+          "相对于数值型关联规则，布尔型关联规则处理的值都是离散的、种类化的，它显示了这些变量之间的关系。下面例子中属于布尔型关联规则的是：",
+        options: [
+          "A、性别=‘女’→avg(收入)=3000",
+          "B、性别=‘女’→职业=‘会计’",
+          "C、类别=‘东北虎’→avg(体长)=2.3米",
+          "D、城市=‘成都’→avg(房价)=2.9w",
+        ],
+        answer: "B",
+      },
+      {
+        id: "R2-6",
+        score: 4,
+        content: "关联规则中，ECLAT算法描述错误的是：",
+        options: [
+          "A、该算法是一种深度优先算法",
+          "B、该算法主要用于挖掘频繁项集，发现关联规则",
+          "C、该算法只需扫描一次数据库，可大大减少挖掘规则所需要的时间",
+          "D、上述描述均不正确",
+        ],
+        answer: "D",
+      },
+      {
+        id: "R2-7",
+        score: 4,
+        content: "如果A={x,y,z}是频繁项集，则可以通过A产生的关联规则是：",
+        options: ["A、2", "B、4", "C、6", "D、8"],
+        answer: "C",
+      },
+      {
+        id: "R2-8",
+        score: 4,
+        content:
+          "关联规则发现是数据挖掘中最为重要和典型的一种方法。最常用的关联规则发现算法是：",
+        options: [
+          "A、Apriori法",
+          "B、C4.5算法",
+          "C、k-means算法",
+          "D、kNN算法",
+        ],
+        answer: "A",
+      },
+      {
+        id: "R2-9",
+        score: 4,
+        content: "Eclat算法是一种常见的：",
+        options: [
+          "A、聚类分析算法",
+          "B、序列模式挖掘算法",
+          "C、关联规则挖掘算法",
+          "D、分类算法",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-10",
+        score: 4,
+        content: "下列哪个算法不属于挖掘频繁模式主要算法:",
+        options: ["A、Apriori", "B、FP-growth", "C、AdaBoost", "D、Eclat"],
+        answer: "C",
+      },
+      {
+        id: "R2-11",
+        score: 4,
+        content: "在超市管理中，下列哪种方法可以帮助超市发现顾客的购买习惯:",
+        options: ["A、分类", "B、回归分析", "C、聚类分析", "D、关联规则挖掘"],
+        answer: "D",
+      },
+      {
+        id: "R2-12",
+        score: 4,
+        content: "下列哪些方法不能提高Apriori的效率:",
+        options: [
+          "A、事务压缩",
+          "B、基于数据划分的方法",
+          "C、基于采样的方法",
+          "D、k近邻算法",
+        ],
+        answer: "D",
+      },
+      {
+        id: "R2-13",
+        score: 4,
+        content: "相关分析中，下列哪种关系不属于不同现象的关系:",
+        options: ["A、正相关", "B、因果关系", "C、不相关", "D、负相关"],
+        answer: "B",
+      },
+      {
+        id: "R2-14",
+        score: 4,
+        content: "关于强关联规则描述正确的是:",
+        options: [
+          "A、强关联规则一定有价值",
+          "B、强关联规则一定没有价值",
+          "C、强关联规则不一定有价值",
+          "D、上述描述均不正确",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-15",
+        score: 4,
+        content: "关联规则中，提升度描述错误的是:",
+        options: [
+          "A、提升度等于置信度除以支持度",
+          "B、提升度等于1说明两者无相关性",
+          "C、提升度大于1说明两者正相关",
+          "D、上述描述均不正确",
+        ],
+        answer: "A",
+      },
+      {
+        id: "R2-16",
+        score: 4,
+        content:
+          "如果描述的是量化的项或者属性之间的关联，我们称之为量化型关联规则。下面属于量化型关联规则的是：",
+        options: [
+          "A、性别=‘女’→饲养=‘小猫’",
+          "B、性别=‘男’→购买=‘啤酒’",
+          "C、性别=‘女’→职业=‘秘书’",
+          "D、性别=‘女’→avg(月收入)=2300",
+        ],
+        answer: "D",
+      },
+      {
+        id: "R2-17",
+        score: 4,
+        content: "下列说法正确的是：",
+        options: [
+          "A、决策树方法通常用于关联规则挖掘",
+          "B、如果一个频繁项集包含N个数据项，这个频繁项集则可以产生N个关联规则",
+          "C、支持度是衡量关联规则重要性的一个指标",
+          "D、给定关联规则A→B，则若A发生，B也会发生",
+        ],
+        answer: "C",
+      },
+      {
+        id: "R2-18",
+        score: 4,
+        content:
+          "发现关联规则的Apriori算法通常要经过以下三个步骤：连接数据，作数据准备；给定（）和（），利用数据挖掘发现关联规则；可视化显示、评估关联规则。",
+        options: [
+          "A、最小支持度、最小置信度",
+          "B、最小支持度、最大置信度",
+          "C、最大支持度、最小置信度",
+          "D、最大支持度、最大置信度",
+        ],
+        answer: "A",
+      },
+    ],
+  },
+];
+// 全局变量
+let currentChapter = null;
+let currentProblemIndex = 0;
+let correctCount = 0;
+let selectedAnswer = null;
+let bookmarkedProblems = JSON.parse(localStorage.getItem('bookmarkedProblems')) || {};
+
+// 初始化章节按钮
+function initChapters() {
+  const chapterList = document.getElementById('chapterList');
+  
+  radioProblem.forEach(chapter => {
+    const btn = document.createElement('button');
+    btn.className = 'chapter-btn';
+    btn.textContent = chapter.class;
+    btn.addEventListener('click', () => selectChapter(chapter));
+    chapterList.appendChild(btn);
+  });
+}
+
+// 选择章节
+function selectChapter(chapter) {
+  currentChapter = chapter;
+  currentProblemIndex = 0;
+  correctCount = 0;
+  
+  document.getElementById('questionContainer').style.display = 'block';
+  updateStats();
+  loadProblem();
+}
+
+// 加载当前题目
+function loadProblem() {
+  const problem = currentChapter.problems[currentProblemIndex];
+  
+  // 更新问题标题
+  document.getElementById('questionTitle').innerHTML = `
+    <strong>${currentProblemIndex + 1}/${currentChapter.problems.length}</strong> 
+    (${problem.score}分) ${problem.content}
+  `;
+  
+  // 清空选项列表
+  const optionsList = document.getElementById('optionsList');
+  optionsList.innerHTML = '';
+  
+  // 添加选项
+  problem.options.forEach((option, index) => {
+    const optionItem = document.createElement('div');
+    optionItem.className = 'option-item';
+    optionItem.textContent = option;
+    optionItem.dataset.value = option.charAt(0); // 存储选项字母(A/B/C/D)
+    optionItem.addEventListener('click', () => selectOption(optionItem));
+    
+    // 添加收藏图标
+    const bookmarkIcon = document.createElement('span');
+    bookmarkIcon.className = 'bookmark-icon';
+    bookmarkIcon.innerHTML = '★';
+    bookmarkIcon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleBookmark(problem.id);
+      updateBookmarkIcon(bookmarkIcon, problem.id);
+    });
+    updateBookmarkIcon(bookmarkIcon, problem.id);
+    
+    optionItem.appendChild(bookmarkIcon);
+    optionsList.appendChild(optionItem);
+  });
+  
+  // 隐藏反馈和解析
+  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('explanation').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+  
+  // 重置选中的答案
+  selectedAnswer = null;
+  updateProgress();
+}
+
+// 更新收藏图标状态
+function updateBookmarkIcon(icon, problemId) {
+  if (bookmarkedProblems[problemId]) {
+    icon.classList.add('active');
+  } else {
+    icon.classList.remove('active');
+  }
+}
+
+// 切换收藏状态
+function toggleBookmark(problemId) {
+  if (bookmarkedProblems[problemId]) {
+    delete bookmarkedProblems[problemId];
+  } else {
+    bookmarkedProblems[problemId] = true;
+  }
+  localStorage.setItem('bookmarkedProblems', JSON.stringify(bookmarkedProblems));
+}
+
+// 选择选项
+function selectOption(optionItem) {
+  if (document.getElementById('feedback').style.display === 'block') {
+    return; // 如果已经显示了反馈，不允许再次选择
+  }
+  
+  // 清除之前选中的选项
+  document.querySelectorAll('.option-item').forEach(item => {
+    item.classList.remove('selected');
+  });
+  
+  // 选中当前选项
+  optionItem.classList.add('selected');
+  selectedAnswer = optionItem.dataset.value;
+  
+  // 检查答案
+  checkAnswer();
+}
+
+// 检查答案
+function checkAnswer() {
+  const problem = currentChapter.problems[currentProblemIndex];
+  const isCorrect = selectedAnswer === problem.answer;
+  const feedback = document.getElementById('feedback');
+  const explanation = document.getElementById('explanation');
+  
+  // 标记正确/错误选项
+  document.querySelectorAll('.option-item').forEach(item => {
+    if (item.dataset.value === problem.answer) {
+      item.classList.add('correct');
+    } else if (item.dataset.value === selectedAnswer && !isCorrect) {
+      item.classList.add('incorrect');
+    }
+  });
+  
+  // 显示反馈
+  feedback.style.display = 'block';
+  explanation.style.display = 'block';
+  
+  if (isCorrect) {
+    feedback.className = 'feedback correct';
+    feedback.textContent = '✓ 回答正确！';
+    correctCount++;
+  } else {
+    feedback.className = 'feedback incorrect';
+    feedback.textContent = `✗ 回答错误！正确答案是：${problem.answer}`;
+  }
+  
+  // 显示解析
+  if (problem.explanation) {
+    explanation.textContent = `解析：${problem.explanation}`;
+  } else {
+    explanation.textContent = '暂无解析';
+  }
+  
+  // 显示下一题按钮
+  document.getElementById('nextBtn').style.display = 'block';
+  updateStats();
+}
+
+// 下一题
+function nextProblem() {
+  currentProblemIndex++;
+  
+  if (currentProblemIndex < currentChapter.problems.length) {
+    loadProblem();
+  } else {
+    // 所有题目已完成
+    document.getElementById('questionTitle').textContent = `章节练习完成！`;
+    document.getElementById('optionsList').innerHTML = '';
+    document.getElementById('feedback').className = 'feedback correct';
+    document.getElementById('feedback').textContent = `本章节练习完成！正确率：${Math.round(correctCount/currentChapter.problems.length*100)}% (${correctCount}/${currentChapter.problems.length})`;
+    document.getElementById('feedback').style.display = 'block';
+    document.getElementById('explanation').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'none';
+  }
+}
+
+function prevProblem() {
+  currentProblemIndex--;
+  if (currentProblemIndex >= 0) {
+    loadProblem();
+  }
+}
+
+
+
+// 更新统计信息
+function updateStats() {
+  if (currentChapter) {
+    document.getElementById('stats').textContent = 
+      `${currentChapter.class} - 进度: ${currentProblemIndex + 1}/${currentChapter.problems.length} | 正确: ${correctCount} | 正确率: ${correctCount > 0 ? Math.round(correctCount/(currentProblemIndex + 1)*100) : 0}%`;
+  }
+}
+
+// 更新进度条
+function updateProgress() {
+  const progressPercentage = ((currentProblemIndex + 1) / currentChapter.problems.length) * 100;
+  document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+}
+
+// 初始化页面
+function init() {
+  initChapters();
+  document.getElementById('nextBtn').addEventListener('click', nextProblem);
+  document.getElementById('prevBtn').addEventListener('click', prevProblem);
+  document.getElementById('markBtn').addEventListener('click', () => {
+    const problem = currentChapter.problems[currentProblemIndex];
+    toggleBookmark(problem.id);
+    const icon = document.querySelector(`.option-item[data-value="${selectedAnswer}"] .bookmark-icon`);
+    if (icon) updateBookmarkIcon(icon, problem.id);
+  });
+}
+
+// 页面加载完成后初始化
+window.addEventListener('DOMContentLoaded', init);
+ 
+  </script>
+</body>
+</html> 

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成信大数据挖掘与应用2025 - 填空题汇总</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1a73e8;
+            font-weight: 600;
+        }
+        h2 {
+            color: #1a73e8;
+            border-bottom: 2px solid #1a73e8;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-weight: 500;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .question:hover {
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .answer {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            font-weight: 500;
+            color: #1a73e8;
+            border-left: 4px solid #1a73e8;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .review-mode-btn {
+            position: sticky;
+            top: 20px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+            transition: all 0.3s;
+            display: block;
+            margin: 0 auto 30px;
+            z-index: 100;
+        }
+        .review-mode-btn:hover {
+            background-color: #0d62c1;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+        }
+        .review-mode .answer {
+            display: none;
+        }
+        .review-mode .question:hover .answer {
+            display: block;
+        }
+        p strong {
+            font-size: 16px;
+            color: #333;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <button class="review-mode-btn" onclick="toggleReviewMode()">切换复习模式</button>
+    
+    <div class="container">
+        <h1>成信大数据挖掘与应用2025 - 填空题汇总</h1>
+        
+        <div class="section">
+            <h2>分类</h2>
+
+            <div class="question">
+                <p><strong>R4-1. 在构造分类的决策树时，第__________个需要考虑的问题是哪个特征划分分类最重要，放在__________节点上</strong></p>
+                <div class="answer">答案：一，根</div>
+            </div>
+
+            <div class="question">
+                <p><strong>R4-2. 对于带有类别标记Z(改善性能)的训练集S，所有元组正确分类的期望信息为量0.89。使用ID3算法构建决策树根节点的时候，使用待选属性A划分S之后，还需要0.67的期望信息量，才能获得准确分类。如此，A划分的信息增益为__________；使用待选属性B划分S之后，信息增益为0.36，则属性__________（B还是A）更加适合作为决策树根节点。</strong></p>
+                <div class="answer">答案：0.22，B</div>
+            </div>
+
+            <div class="question">
+                <p><strong>R4-3. 带有类别标记Z(提高利润)的训练集S，Z将S分为类Y和类N两类。类Y有3个元组，类N有4个元组，正确分类所需的期望信息量为<br>I(3,4)=-A/7log3/B-4/Clog D/7。<br>A=__________，<br>B=__________,<br>C=__________,<br>D=__________</strong></p>
+                <div class="answer">答案：3，7，7，4</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>聚类</h2>
+
+            <div class="question">
+                <p><strong>R4-1. 基于划分的聚类方法，其划分准则是，同一个簇中的对象尽可能相互__________，不同簇中的对象尽可能__________。</strong></p>
+                <div class="answer">答案：紧密，分散</div>
+            </div>
+
+            <div class="question">
+                <p><strong>R4-2. 基本聚类方法主要包含基于__________的方法、基于__________的方法和基于__________的方法。</strong></p>
+                <div class="answer">答案：划分，层次，密度</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>频繁模式</h2>
+
+            <div class="question">
+                <p><strong>R4-1. 下图为数据事务及其元素：</strong></p>
+                <p><img alt="20210615140231287.png" src="https://images.ptausercontent.com/9c2abfb4-5df3-46b2-977d-a441e4d10116.png"><br>其中，最小支持度为50%，置信度为70%，使用Apriori算法找出的频繁项集总数为__________</p>
+                <div class="answer">答案：9</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>数据和预处理</h2>
+
+            <div class="question">
+                <p><strong>R4-1. 对于左偏分布，__________&lt;中位数&lt;__________。收入水平一般是__________偏分布。（填空候选：均值、众数、左、右）</strong></p>
+                <div class="answer">答案：均值，众数，右</div>
+            </div>
+
+            <div class="question">
+                <p><strong>R4-2. 设数据集包含4个3元组数据，PCA变换需要对数据先进行中心化，然后计算协方差矩阵，进行__________分解，得到特征向量矩阵U和特征值矩阵A，其中A是对角矩阵，包含__________个特征值（3还是4），特征向量是矩阵U中的__________（"横"还是"纵"）向量。（填写候选：最大、最小、特征值、特征、属性、横、纵）</strong></p>
+                <div class="answer">答案：特征值，3，纵</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleReviewMode() {
+            document.body.classList.toggle('review-mode');
+            
+            const btn = document.querySelector('.review-mode-btn');
+            if (document.body.classList.contains('review-mode')) {
+                btn.innerText = '退出复习模式';
+            } else {
+                btn.innerText = '切换复习模式';
+            }
+        }
+    </script>
+</body>
+</html>
